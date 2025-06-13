@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  telegramId        String   @unique
+  username          String?
+  firstName         String?
+  lastName          String?
+  totalBalance      Float    @default(0)
+  miningPower       Float    @default(4.0) // Base mining power: 4 tokens per 4 hours
+  hasBasicPlan      Boolean  @default(false)
+  speedUpgrades     Int      @default(0) // Number of speed upgrades purchased
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  miningSessions    MiningSession[]
+  userTasks         UserTask[]
+  referralsGiven    Referral[] @relation("ReferrerUser")
+  referralsReceived Referral[] @relation("ReferredUser")
+  subscriptions     Subscription[]
+
+  @@map("users")
+}
+
+model MiningSession {
+  id          String    @id @default(cuid())
+  userId      String
+  startTime   DateTime
+  endTime     DateTime?
+  tokensEarned Float    @default(0)
+  isCompleted Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("mining_sessions")
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  reward      Float
+  link        String?
+  attachment  String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userTasks   UserTask[]
+
+  @@map("tasks")
+}
+
+model UserTask {
+  id          String    @id @default(cuid())
+  userId      String
+  taskId      String
+  completedAt DateTime?
+  rewardClaimed Boolean @default(false)
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskId])
+  @@map("user_tasks")
+}
+
+model Referral {
+  id          String   @id @default(cuid())
+  referrerId  String
+  referredId  String
+  reward      Float    @default(0.5)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  referrer    User     @relation("ReferrerUser", fields: [referrerId], references: [id], onDelete: Cascade)
+  referred    User     @relation("ReferredUser", fields: [referredId], references: [id], onDelete: Cascade)
+
+  @@unique([referrerId, referredId])
+  @@map("referrals")
+}
+
+model PendingReferral {
+  id          String   @id @default(cuid())
+  telegramId  String   @unique
+  referrerId  String
+  createdAt   DateTime @default(now())
+
+  @@map("pending_referrals")
+}
+
+model Subscription {
+  id              String   @id @default(cuid())
+  userId          String
+  upgradeType     String   // "speed" for speed upgrades, "basic_plan" for basic plan
+  amount          Float    // Amount paid in TON
+  upgradeValue    Float    // The upgrade value (e.g., 0.25 for speed)
+  transactionId   String?  // Legacy: Telegram Stars transaction ID
+  transactionHash String?  // TON blockchain transaction hash
+  paymentMethod   String   @default("ton") // "stars" or "ton"
+  paymentComment  String?  // TON payment comment for tracking
+  purchaseDate    DateTime @default(now())
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}

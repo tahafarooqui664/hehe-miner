@@ -1,0 +1,54 @@
+{
+  "name": "hehe-miner",
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "DATABASE_URL": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKWERLSDVXSFBaQUNISllETkc2NUVHM0IiLCJ0ZW5hbnRfaWQiOiIzZDcxYmJhZGFmMDY3Mjk4YTBlNmMwMzkxMzJmMDdlNzZkNGUyNmI4YTg2M2U2NjdlZTU2MDRmNTFiYmVlM2IyIiwiaW50ZXJuYWxfc2VjcmV0IjoiNDU4ODAyYjEtYjFlZS00ZGZmLTkyZGUtMzYxM2FlYTAwYWRiIn0.1XNe84cyNw1_W-_CXNHBP5kZsVTCs9tMEM6VUIBzhhY",
+    "JWT_SECRET": "076c92f674d1e859d3954fabc2701864d069f509df7ff93f6c540b2ba6401e67",
+    "TELEGRAM_BOT_TOKEN": "8012094721:AAE2mRgi-UgUCSjTSj5gpMyrEb3cbOV608o",
+    "NODE_ENV": "production",
+    "ENABLE_MOCK_AUTH": "false"
+  },
+  "build": {
+    "env": {
+      "DATABASE_URL": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKWERLSDVXSFBaQUNISllETkc2NUVHM0IiLCJ0ZW5hbnRfaWQiOiIzZDcxYmJhZGFmMDY3Mjk4YTBlNmMwMzkxMzJmMDdlNzZkNGUyNmI4YTg2M2U2NjdlZTU2MDRmNTFiYmVlM2IyIiwiaW50ZXJuYWxfc2VjcmV0IjoiNDU4ODAyYjEtYjFlZS00ZGZmLTkyZGUtMzYxM2FlYTAwYWRiIn0.1XNe84cyNw1_W-_CXNHBP5kZsVTCs9tMEM6VUIBzhhY",
+      "JWT_SECRET": "076c92f674d1e859d3954fabc2701864d069f509df7ff93f6c540b2ba6401e67",
+      "TELEGRAM_BOT_TOKEN": "8012094721:AAE2mRgi-UgUCSjTSj5gpMyrEb3cbOV608o",
+      "NODE_ENV": "production",
+      "ENABLE_MOCK_AUTH": "false"
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
+}
