@@ -11,8 +11,8 @@ export const MERCHANT_WALLET_ADDRESS = 'UQB5SucbE_v2p08QI7bVx5EBvIeDS6SMEmG05m7z
 
 // Payment amounts in TON
 export const PAYMENT_AMOUNTS = {
-  BASIC_PLAN: '0.1', // 0.1 TON
-  SPEED_UPGRADE: '0.1' // 0.1 TON
+  BASIC_PLAN: '0.2', // 0.2 TON
+  SPEED_UPGRADE: '0.2' // 0.2 TON
 } as const
 
 export interface TonPaymentOptions {

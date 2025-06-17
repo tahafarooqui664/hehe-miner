@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { PAYMENT_AMOUNTS } from '@/lib/tonConnect'
 
 export async function POST(request: NextRequest) {
   try {
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
       data: {
         userId: user.id,
         upgradeType: 'speed',
-        amount: paymentMethod === 'ton' ? 0.1 : 1.0, // 0.1 TON or $1.0 for Stars
+        amount: paymentMethod === 'ton' ? parseFloat(PAYMENT_AMOUNTS.SPEED_UPGRADE) : 1.0, // 0.2 TON or $1.0 for Stars
         upgradeValue: speedUpgradeValue,
         transactionId: transactionId || null,
         transactionHash: transactionHash || null,
