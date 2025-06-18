@@ -18,7 +18,7 @@ model User {
   lastName          String?
   totalBalance      Float    @default(0)
   miningPower       Float    @default(4.0) // Base mining power: 4 tokens per 4 hours
-  hasBasicPlan      Boolean  @default(false)
+  hasBasicPlan      Boolean  @default(true)
   speedUpgrades     Int      @default(0) // Number of speed upgrades purchased
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

@@ -245,13 +245,14 @@ export async function POST(request: NextRequest) {
       try {
         // Create user in a transaction to handle referral
         const result = await prisma.$transaction(async (tx) => {
-          // Create the new user
+          // Create the new user with basic plan automatically activated
           const newUser = await tx.user.create({
             data: {
               telegramId: telegramIdString,
               username: telegramData.username,
               firstName: telegramData.first_name,
-              lastName: telegramData.last_name
+              lastName: telegramData.last_name,
+              hasBasicPlan: true
             }
           })
 

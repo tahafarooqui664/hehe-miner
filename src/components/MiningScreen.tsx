@@ -50,7 +50,7 @@ export default function MiningScreen() {
 
   const handleStartMining = async () => {
     if (!user?.hasBasicPlan) {
-      setError('You need to purchase the basic plan first!')
+      setError('Please activate your free basic plan in the Upgrades section first!')
       return
     }
 
@@ -165,7 +165,7 @@ export default function MiningScreen() {
           
           {!user?.hasBasicPlan ? (
             <div className="text-center animate-slide-up">
-              <p className="text-gray-300 mb-6 text-lg">Purchase the basic plan to start mining! 🚀</p>
+              <p className="text-gray-300 mb-6 text-lg">Activate your free basic plan to start mining! 🚀</p>
               <div className="glass rounded-2xl p-6 border border-yellow-400/30">
                 <div className="flex items-center justify-center space-x-3 mb-4">
                   <span className="text-3xl animate-bounce">💡</span>
@@ -173,7 +173,7 @@ export default function MiningScreen() {
                   <span className="text-3xl animate-bounce" style={{animationDelay: '0.4s'}}>💎</span>
                 </div>
                 <p className="text-yellow-300 font-bold text-lg mb-2">
-                  Basic Plan: $1
+                  Basic Plan: FREE
                 </p>
                 <p className="text-gray-300">
                   Unlock mining 4 HEHE tokens every 4 hours
